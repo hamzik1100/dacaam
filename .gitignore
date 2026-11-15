@@ -1,0 +1,49 @@
+# Machine-specific backend configuration (DB credentials, debug flags).
+backend/config/config.local.php
+
+# Release signing. Committing either of these hands anyone who clones the repo
+# the ability to publish an update that Android will accept as genuine.
+mobile/android/key.properties
+*.jks
+*.keystore
+
+# Flutter
+mobile/build/
+mobile/.dart_tool/
+mobile/.flutter-plugins-dependencies
+mobile/ios/Pods/
+mobile/android/.gradle/
+mobile/android/local.properties
+
+# Editor / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Firebase service account. This key can send a push notification to every
+# handset running DACAAM, so it belongs on the server and nowhere else —
+# not in the repository and not in the deploy bundle.
+backend/config/firebase.json
+*-firebase-adminsdk-*.json
+
+# The deploy bundle. Regenerated on every deploy, and it carries firebase.json
+# to the server — which is where that key has to end up, but not somewhere it
+# should ever be committed on the way.
+dist/
+
+# Database backups hold real customer data — never public.
+backend/storage/backups/*.sql
+backend/storage/backups/*.gz
+backend/storage/logs/
+
+# Built APK — publish it as a GitHub Release, not inside the code.
+*.apk
+*.aab
+
+# Signing folder (the .jks is already ignored above; keep the whole folder off).
+keystore/

@@ -1,0 +1,41 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dacaam-web",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "cd /d C:\\Users\\User\\Music\\DACAAM\\mobile && flutter run -d web-server --web-port 8123 --web-hostname 127.0.0.1"
+      ],
+      "port": 8123,
+      "autoPort": false,
+      "url": "http://localhost:8123"
+    },
+    {
+      "name": "dacaam-admin",
+      "runtimeExecutable": "D:\\xampp\\php\\php.exe",
+      "runtimeArgs": [
+        "-S",
+        "127.0.0.1:8091",
+        "-t",
+        "C:\\Users\\User\\Music\\DACAAM\\admin\\public",
+        "C:\\Users\\User\\Music\\DACAAM\\admin\\public\\index.php"
+      ],
+      "port": 8091,
+      "autoPort": false
+    },
+    {
+      "name": "dacaam-snapshots",
+      "runtimeExecutable": "D:\\xampp\\php\\php.exe",
+      "runtimeArgs": [
+        "-S",
+        "127.0.0.1:8092",
+        "-t",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Music-DACAAM\\427407de-a7a1-45f6-93e2-648bffe19170\\scratchpad\\snapshots"
+      ],
+      "port": 8092,
+      "autoPort": false
+    }
+  ]
+}

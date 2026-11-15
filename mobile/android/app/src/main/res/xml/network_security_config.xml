@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Android 9+ blocks cleartext HTTP by default, and that default is kept for
+    everything not named below: a bearer token travelling to a hosted API must
+    be encrypted.
+
+    The exceptions are the development loopback addresses. A restaurant running
+    the API on its own machine behind its own router will have no certificate,
+    so add that server's address here at install time — Android matches IP
+    entries exactly and has no way to express "any address on my subnet", so
+    the real address has to be written down rather than wildcarded.
+
+    Once the API is behind TLS, delete the domain-config block entirely.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false"/>
+
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Loopback, and how the Android emulator reaches its host. -->
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">127.0.0.1</domain>
+        <domain includeSubdomains="false">10.0.2.2</domain>
+
+        <!-- The restaurant's own server. Replace with its LAN address or
+             hostname; a hostname with includeSubdomains is the tidier option
+             if the network has local DNS. -->
+        <domain includeSubdomains="true">dacaam.local</domain>
+    </domain-config>
+</network-security-config>

@@ -1,0 +1,304 @@
+/* DACAAM Super Admin — the same identity as the mobile app, at desk scale.
+   Orange/amber on near-white, white cards, 16px radii, soft shadows. */
+
+:root {
+  --primary: #F97316;
+  --secondary: #F59E0B;
+  --success: #10B981;
+  --danger: #EF4444;
+  --info: #3B82F6;
+  --violet: #8B5CF6;
+
+  --bg: #F8FAFC;
+  --card: #FFFFFF;
+  --text: #0F172A;
+  --subtext: #64748B;
+  --border: #E2E8F0;
+  --muted: #F1F5F9;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 18px -6px rgba(15, 23, 42, 0.08);
+  --gutter: 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0F172A;
+    --card: #1E293B;
+    --text: #F8FAFC;
+    --subtext: #94A3B8;
+    --border: #334155;
+    --muted: #263449;
+    --shadow: 0 8px 22px -6px rgba(0, 0, 0, 0.5);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1, h2, h3 { margin: 0; letter-spacing: -0.4px; }
+h1 { font-size: 24px; font-weight: 700; }
+h2 { font-size: 17px; font-weight: 700; }
+h3 { font-size: 15px; font-weight: 600; }
+
+/* ------------------------------------------------------------- layout */
+
+.shell { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 232px;
+  flex-shrink: 0;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  padding: var(--gutter) 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; padding: 0 8px; }
+.brand-mark {
+  width: 42px; height: 42px; border-radius: 13px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: grid; place-items: center; font-size: 20px;
+  box-shadow: 0 8px 16px -6px rgba(249, 115, 22, 0.5);
+}
+.brand-name { font-weight: 700; letter-spacing: 3px; font-size: 15px; }
+.brand-sub { font-size: 11px; color: var(--subtext); letter-spacing: 0; }
+
+.nav-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  color: var(--subtext); font-weight: 600; font-size: 14px;
+}
+.nav-link:hover { background: var(--muted); text-decoration: none; }
+.nav-link.active { background: rgba(249, 115, 22, 0.11); color: var(--primary); }
+.nav-icon { width: 18px; text-align: center; }
+
+.sidebar-foot { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
+.sidebar-foot .btn { width: 100%; }
+.who { font-size: 13px; font-weight: 600; }
+.who-sub { font-size: 11px; color: var(--subtext); margin-bottom: 10px; }
+
+.main { flex: 1; min-width: 0; padding: var(--gutter); }
+.page-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: var(--gutter); flex-wrap: wrap;
+}
+.page-sub { color: var(--subtext); font-size: 13px; margin-top: 2px; }
+
+/* -------------------------------------------------------------- cards */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+.card + .card { margin-top: 16px; }
+.card-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 12px;
+}
+
+.grid { display: grid; gap: 16px; }
+/* A grid column is never narrower than its widest table unless told it may
+   be — and then one wide table pushes the next card off the screen. With this
+   the column holds its share and the table scrolls inside .table-wrap. */
+.grid > * { min-width: 0; }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } }
+
+/* Below the sidebar's width the nav folds into a bar across the top. It is
+   never hidden: a tool whose only navigation disappears on a narrow screen
+   strands whoever is using it there. */
+@media (max-width: 900px) {
+  .shell { flex-direction: column; }
+  .sidebar {
+    width: auto; height: auto; position: static;
+    flex-direction: row; flex-wrap: wrap; align-items: center;
+    gap: 6px; padding: 14px 16px;
+    border-right: 0; border-bottom: 1px solid var(--border);
+  }
+  .brand { margin: 0 12px 0 0; padding: 0; }
+  .nav-link { padding: 8px 10px; font-size: 13px; }
+  .sidebar-foot {
+    margin: 0 0 0 auto; padding: 0; border-top: 0;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .sidebar-foot .btn { width: auto; }
+  .who-sub { margin-bottom: 0; }
+}
+@media (max-width: 640px) {
+  .brand-sub, .who, .who-sub, .nav-label { display: none; }
+  .nav-icon { font-size: 17px; }
+}
+
+.kpi-label { font-size: 12px; color: var(--subtext); font-weight: 600; }
+.kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.8px; margin-top: 6px; }
+.kpi-foot { font-size: 12px; color: var(--subtext); margin-top: 6px; }
+
+/* ------------------------------------------------------------- tables */
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th {
+  text-align: left; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.6px; color: var(--subtext); font-weight: 700;
+  padding: 0 12px 10px; white-space: nowrap;
+}
+td { padding: 12px; border-top: 1px solid var(--border); vertical-align: middle; }
+tr:hover td { background: var(--muted); }
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.table-wrap { overflow-x: auto; }
+
+/* -------------------------------------------------------------- chips */
+
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 700; white-space: nowrap;
+}
+.chip-active    { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+.chip-trial     { background: rgba(245, 158, 11, 0.14); color: #B45309; }
+.chip-suspended { background: rgba(239, 68, 68, 0.12);  color: var(--danger); }
+.chip-expired   { background: rgba(239, 68, 68, 0.12);  color: var(--danger); }
+.chip-muted     { background: var(--muted); color: var(--subtext); }
+.chip-info      { background: rgba(59, 130, 246, 0.12); color: var(--info); }
+.chip-archived  { background: var(--muted); color: var(--subtext); }
+
+/* ------------------------------------------------------------ buttons */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 18px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--card); color: var(--text);
+  font: inherit; font-weight: 600; font-size: 14px; cursor: pointer;
+}
+.btn:hover { background: var(--muted); text-decoration: none; }
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-color: transparent; color: #fff;
+  box-shadow: 0 8px 16px -6px rgba(249, 115, 22, 0.45);
+}
+.btn-primary:hover { filter: brightness(1.05); background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+.btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.5); }
+.btn-danger:hover { background: rgba(239, 68, 68, 0.08); }
+.btn-sm { padding: 7px 12px; font-size: 13px; }
+
+/* -------------------------------------------------------------- forms */
+
+.field { margin-bottom: 16px; }
+label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+input, select, textarea {
+  width: 100%; padding: 10px 12px; font: inherit;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--card); color: var(--text);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+.hint { font-size: 12px; color: var(--subtext); margin-top: 5px; }
+.form-row { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+@media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
+.actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+/* -------------------------------------------------------------- flash */
+
+.flash {
+  padding: 12px 16px; border-radius: var(--radius-sm);
+  margin-bottom: 20px; font-weight: 600; font-size: 14px;
+  border: 1px solid transparent;
+}
+.flash-success { background: rgba(16, 185, 129, 0.1); color: #047857; border-color: rgba(16, 185, 129, 0.3); }
+.flash-error   { background: rgba(239, 68, 68, 0.1); color: #B91C1C; border-color: rgba(239, 68, 68, 0.3); }
+
+/* -------------------------------------------------------------- login */
+
+.login-wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.login-card { width: 100%; max-width: 400px; }
+.login-brand { text-align: center; margin-bottom: 28px; }
+.login-brand .brand-mark { margin: 0 auto 14px; width: 62px; height: 62px; border-radius: 20px; font-size: 30px; }
+.login-brand h1 { letter-spacing: 5px; font-size: 22px; }
+
+/* --------------------------------------------------------------- tabs */
+
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.tab {
+  padding: 7px 14px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; color: var(--subtext);
+  background: var(--muted);
+}
+.tab:hover { text-decoration: none; color: var(--text); }
+.tab.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+}
+.page-head .tabs { margin-bottom: 0; }
+
+/* -------------------------------------------------------------- charts */
+
+.chart { display: flex; align-items: flex-end; gap: 3px; height: 180px; }
+/* Capped so a two-day window reads as two bars rather than a solid block. */
+.chart-col { flex: 1 1 0; max-width: 44px; height: 100%; display: flex; align-items: flex-end; min-width: 2px; }
+.chart-bar {
+  width: 100%; min-height: 2px; border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+}
+.chart-col:hover .chart-bar { filter: brightness(1.15); }
+.chart-axis {
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--subtext); margin-top: 8px;
+}
+
+/* --------------------------------------------------------------- misc */
+
+.stat-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border);
+}
+.stat-row:last-of-type { border-bottom: 0; }
+hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0 18px; }
+.bar { height: 7px; border-radius: 999px; background: var(--muted); overflow: hidden; }
+.bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+.empty { text-align: center; padding: 40px 20px; color: var(--subtext); }
+.spark { display: flex; align-items: flex-end; gap: 3px; height: 64px; }
+.spark > i {
+  flex: 1; border-radius: 3px 3px 0 0; min-height: 2px;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+}
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+.stack { display: flex; flex-direction: column; gap: 2px; }
+.muted { color: var(--subtext); font-size: 12px; }
+details > summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+details[open] > summary { margin-bottom: 14px; }
+
+/* -------------------------------------------------------------- notice */
+
+/* A quiet statement of fact, distinct from .flash — which announces something
+   that just happened and is bold about it. This one is context that is simply
+   true whenever the page is open. */
+.notice {
+  padding: 12px 16px; border-radius: var(--radius-sm);
+  font-size: 13px; line-height: 1.55; color: var(--subtext);
+  background: var(--muted); border: 1px solid var(--border);
+}

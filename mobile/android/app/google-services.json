@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "489296594783",
+    "project_id": "dacaam-557e5",
+    "storage_bucket": "dacaam-557e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489296594783:android:8d2c8793521ae8668798ea",
+        "android_client_info": {
+          "package_name": "so.dacaam.dacaam_pos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8noXYNPxU4dzo7btTDlLTE_O9PE_AyK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,22 @@
+# Route everything through the front controller, except real asset files.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set Referrer-Policy "same-origin"
+</IfModule>
+
+# Not `Options -Indexes`: shared hosting commonly withholds `Options` from
+# .htaccess, and a withheld directive is a 500 on every request here rather
+# than a line the server skips. See backend/public/.htaccess for the full note.
+<IfModule mod_autoindex.c>
+    IndexIgnore *
+</IfModule>

@@ -1,0 +1,37 @@
+# Route every request through the front controller.
+# Real files (none, in practice) are served directly.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Apache strips the Authorization header from CGI/FastCGI by default,
+    # which would make every authenticated request look anonymous.
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set Referrer-Policy "no-referrer"
+</IfModule>
+
+# Directory listing is off by default on every host this runs on, and the
+# front controller answers every path anyway.
+#
+# `Options -Indexes` used to sit here unguarded. Shared hosting commonly
+# withholds `Options` from .htaccess through AllowOverride, and when it is
+# withheld the server does not ignore the line — it returns 500 for every
+# request in this directory, including a file containing nothing but
+# `echo PHP_VERSION`. That took the API down for an afternoon, and the CLI kept
+# working the whole time because it never reads this file.
+#
+# `Options` has no <IfModule> to hide behind, so the only safe thing is not to
+# use it. IndexIgnore is permitted far more widely and covers the same ground.
+<IfModule mod_autoindex.c>
+    IndexIgnore *
+</IfModule>
